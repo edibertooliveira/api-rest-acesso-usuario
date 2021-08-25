@@ -1,0 +1,1104 @@
+{
+  "openapi": "3.0.6",
+  "info": {
+    "version": "1.3.0",
+    "title": "Locadora Ioasys",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3334",
+      "description": "Prototipo locadora ioasys Server"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "description": "Create a new user",
+        "operationId": "register",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "The user has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/register_response"
+                },
+                "example": {
+                  "id": "889ae8c3-8b31-44dd-a571-be96a15b283c",
+                  "firstName": "user",
+                  "lestName": "test",
+                  "email": "user@gmail.com",
+                  "created_at": "2021-08-13T02:21:57.097Z",
+                  "updated_at": "2021-08-13T02:21:57.097Z",
+                  "avatar_url": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_validate"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "error": "Bad Request",
+                  "message": "celebrate request validation failed",
+                  "validation": {
+                    "body": {
+                      "source": "body",
+                      "keys": [
+                        "email"
+                      ],
+                      "message": "\"email\" must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "There is already one user with this email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "There is already one user with this email"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Create access for a registered user",
+        "operationId": "access",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/session"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User has access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/session_response"
+                },
+                "example": {
+                  "id": "889ae8c3-8b31-44dd-a571-be96a15b283c",
+                  "firstName": "user",
+                  "lestName": "test",
+                  "email": "user@gmail.com",
+                  "created_at": "2021-08-13T02:21:57.097Z",
+                  "updated_at": "2021-08-13T02:21:57.097Z",
+                  "avatar_url": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_validate"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "error": "Bad Request",
+                  "message": "celebrate request validation failed",
+                  "validation": {
+                    "body": {
+                      "source": "body",
+                      "keys": [
+                        "email"
+                      ],
+                      "message": "\"email\" must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/forgot": {
+      "post": {
+        "description": "Request user password change",
+        "operationId": "forgot",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/password_forgot"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Sent an email to the requested user",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_validate"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "error": "Bad Request",
+                  "message": "celebrate request validation failed",
+                  "validation": {
+                    "body": {
+                      "source": "body",
+                      "keys": [
+                        "email"
+                      ],
+                      "message": "\"email\" must be a valid email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "User does not exists."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/reset": {
+      "post": {
+        "description": "change Password with hash",
+        "operationId": "forgot",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/password_reset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "User has been switched",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "example": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_validate"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "error": "Bad Request",
+                  "message": "celebrate request validation failed",
+                  "validation": {
+                    "body": {
+                      "source": "body",
+                      "keys": [
+                        "token"
+                      ],
+                      "message": "\"token\" must be a valid GUID"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "User does not exists."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "description": "Token owner user information",
+        "operationId": "UserProfile",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/movies_response"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Changes to the information of the user who owns the token",
+        "operationId": "updateMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/movies_response"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the user who has the token",
+        "operationId": "allMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Add image to profile of token owner user",
+        "operationId": "addImageUser",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies": {
+      "get": {
+        "description": "Get full movie list",
+        "operationId": "allMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new movie to the list",
+        "operationId": "addMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/:id": {
+      "get": {
+        "description": "Get a single movie",
+        "operationId": "oneMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/movies_response"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates information for a specific movie",
+        "operationId": "updateMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete movie from the list",
+        "operationId": "delMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/search": {
+      "get": {
+        "description": "Keyword Search",
+        "operationId": "searchMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies list",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/voto": {
+      "post": {
+        "description": "Add vote for movie",
+        "operationId": "voteMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "vote well succeed",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/image/:id": {
+      "patch": {
+        "description": "Add image single movie",
+        "operationId": "voteMovies",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "vote well succeed",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+
+          "401": {
+            "description": "JWT Token is missing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "token": {
+        "type": "string",
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE2Mjk3MTQxMzIsImV4cCI6MTYyOTgwMDUzMiwic3ViIjoiZDkwZmU5NTgtMzY4ZS00ZWVmLTg2MTItZjM3MWNmNDBkMDRkIn0.Nk-0DzUq8NGZbbAZd-3SWFZNjNwz2XWS9jlgyQielyk"      },
+      "id": {
+        "type": "string",
+        "example": "d90fe958-368e-4eef-8612-f371cf40d04d"
+      },
+      "name": {
+        "type": "string",
+        "example": "John Doe"
+      },
+      "email": {
+        "type": "string",
+        "example": "john@mail.com"
+      },
+      "password": {
+        "type": "string",
+        "example": "12345#@$$%"
+      },
+      "avatar": {
+        "type": "string",
+        "example": "2740dfb75b87e672212c-IMG_20201208_162412556_MP~4.jpg"
+      },
+      "created_at": {
+        "type": "string",
+        "example": "2021-08-21T18:38:52.207Z"
+      },
+      "updated_at": {
+        "type": "string",
+        "example": "2021-08-21T18:38:52.207Z"
+      },
+      "avatar_url": {
+        "type": "string",
+        "example": null
+      },
+      "role": {
+        "type": "string",
+        "example": "customer"
+      },
+      "title": {
+        "type": "string",
+        "example": "titanic"
+      },
+      "gender": {
+        "type": "string",
+        "example": "épico, drama, romance"
+      },
+      "image": {
+        "type": "string",
+        "example": "2740dfb75b87e672212c-IMG_20201208_162412556_MP~4.jpg"
+      },
+      "image_url": {
+        "type": "string",
+        "example": null
+      },
+      "year": {
+        "type": "string",
+        "example": "1997"
+      },
+      "directors": {
+        "type": "string",
+        "example": "James Cameron, Russell Carpenter, Peter Lamont"
+      },
+      "authors": {
+        "type": "string",
+        "example": "Leonardo DiCaprio, Kate Winslet, Kathy Bates"
+      },
+      "register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "session": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "password_forgot": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/email"
+          }
+        }
+      },
+      "password_reset": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "4fc6e4e1-bc08-4b32-9805-53eb594d18c5"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "password_confirmation": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "movies_response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "image": {
+            "$ref": "#/components/schemas/image"
+          },
+          "directors": {
+            "$ref": "#/components/schemas/directors"
+          },
+          "authors": {
+            "$ref": "#/components/schemas/authors"
+          },
+          "year": {
+            "$ref": "#/components/schemas/year"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          }
+        }
+      },
+      "movie_register": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "directors": {
+            "$ref": "#/components/schemas/directors"
+          },
+          "authors": {
+            "$ref": "#/components/schemas/authors"
+          },
+          "year": {
+            "$ref": "#/components/schemas/year"
+          }
+        }
+      },
+      "movie_register_response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "directors": {
+            "$ref": "#/components/schemas/directors"
+          },
+          "authors": {
+            "$ref": "#/components/schemas/authors"
+          },
+          "year": {
+            "$ref": "#/components/schemas/year"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          },
+          "image_url": {
+            "$ref": "#/components/schemas/image_url"
+          }
+
+        }
+      },
+      "register_response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "role": {
+            "$ref": "#/components/schemas/role"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/created_at"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/updated_at"
+          },
+          "avatar_url": {
+            "$ref": "#/components/schemas/avatar_url"
+          }
+        }
+      },
+      "session_response": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/register_response"
+          },
+          "token": {
+            "$ref": "#/components/schemas/token"
+          }
+        }
+      },
+      "Error_validate": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "number"
+          },
+          "error": {
+            "type": "string"
+          },
+          "validation": {
+            "type": "object"
+          }
+        }
+      },
+      "Error_api": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

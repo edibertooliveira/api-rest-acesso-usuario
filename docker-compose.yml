@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: api-ioasys-app
+    ports:
+      - '3334:3334'
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+      - pgadmin
+
+  db:
+    image: postgres:latest
+    build: .docker/postgres/
+    container_name: api-ioasys-db
+    restart: always
+    tty: true
+    ports:
+      - '5432:5432'
+    volumes:
+      - .docker/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=api-best-movies-database
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: api-ioasys-pgadmin
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - '8080:80'
+    depends_on:
+      - db
