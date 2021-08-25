@@ -1,32 +1,28 @@
-import AppError from '../../../shared/errors/ApiError';
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import { hash } from 'bcryptjs';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
-import User from '../typeorm/entities/User';
+import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
+import { IUser } from '@modules/users/domain/models/IUser';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import HandleError from '@shared/errors/handleError';
 
-interface ICreateUser {
-  name: string;
-  email: string;
-  password: string;
-}
-
+@injectable()
 export default class CreateUserService {
-  public async execute({ name, email, password }: ICreateUser): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const userExists = await usersRepository.findByEmail(email);
+  constructor(@inject('user') private usersRepository: IUsersRepository) {}
+  public async execute({ name, email, password }: ICreateUser): Promise<IUser> {
+    const userExists = await this.usersRepository.findByEmail(email);
     const hashedPassword = await hash(password, 8);
     if (userExists) {
-      throw new AppError('There is already one user with this email', 409);
+      throw new HandleError('There is already one user with this email', 400);
     }
 
-    const user = usersRepository.create({
+    const user = this.usersRepository.create({
       name,
       email,
-      role: 'customer',
       password: hashedPassword,
+      role: 'customer',
     });
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
     return user;
   }
 }

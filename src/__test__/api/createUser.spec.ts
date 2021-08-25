@@ -10,8 +10,6 @@ describe('/register', () => {
     connection = await createConnection('test-app-ioasys');
     await connection.query('DROP TABLE IF EXISTS user_tokens CASCADE');
     await connection.query('DROP TABLE IF EXISTS users CASCADE');
-    await connection.query('DROP TABLE IF EXISTS movies CASCADE');
-    await connection.query('DROP TABLE IF EXISTS ratings CASCADE');
 
     await connection.runMigrations();
   });
@@ -20,8 +18,6 @@ describe('/register', () => {
     await connection.query('DELETE FROM migrations CASCADE');
     await connection.query('DELETE FROM user_tokens CASCADE');
     await connection.query('DELETE FROM users CASCADE');
-    await connection.query('DELETE FROM movies CASCADE');
-    await connection.query('DELETE FROM ratings CASCADE');
   });
 
   afterAll(async () => {

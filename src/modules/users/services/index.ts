@@ -6,7 +6,6 @@ import SendForgotPasswordEmailService from './SendForgotPasswordEmailService';
 import ResetPasswordService from './ResetPasswordService';
 import UpdateProfileService from './UpdateProfileService';
 import ShowProfileService from './ShowProfileService';
-import DeleteUserService from './DeleteUserService';
 
 export {
   CreateUserService,
@@ -17,5 +16,4 @@ export {
   ResetPasswordService,
   UpdateProfileService,
   ShowProfileService,
-  DeleteUserService,
 };

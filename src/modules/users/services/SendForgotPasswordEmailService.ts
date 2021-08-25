@@ -1,21 +1,23 @@
-import AppError from '../../../shared/errors/ApiError';
-import { getCustomRepository } from 'typeorm';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
-import { UsersTokensRepository } from '@modules/users/typeorm/repositories/UsersTokensRepository';
-import EtherealMail from '@config/mail/EtherealMail';
+import { inject, injectable } from 'tsyringe';
 import path from 'path';
-interface IRequest {
-  email: string;
-}
+import EtherealMail from '@config/mail/EtherealMail';
+import { ISendForgot } from '@modules/users/domain/models/ISendForgot';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersTokensRepository } from '@modules/users/domain/repositories/IUsersTokensRepository';
+import HandleError from '@shared/errors/handleError';
 
+@injectable()
 export default class SendForgotPasswordEmailService {
-  public async execute({ email }: IRequest): Promise<void> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const usersTokensRepository = getCustomRepository(UsersTokensRepository);
-    const user = await usersRepository.findByEmail(email);
-    if (!user || user.exclude) throw new AppError('User does not exists.', 404);
+  constructor(
+    @inject('user') private usersRepository: IUsersRepository,
+    @inject('user_token')
+    private usersTokensRepository: IUsersTokensRepository,
+  ) {}
+  public async execute({ email }: ISendForgot): Promise<void> {
+    const user = await this.usersRepository.findByEmail(email);
+    if (!user) throw new HandleError('User does not exists.');
 
-    const { token } = await usersTokensRepository.generate(user.id);
+    const { token } = await this.usersTokensRepository.generate(user.id);
     const forgotPasswordTemplate = path.resolve(
       __dirname,
       '..',
@@ -24,8 +26,8 @@ export default class SendForgotPasswordEmailService {
     );
 
     await EtherealMail.sendMail({
-      to: { name: user.name, email: user.email },
-      subject: '[API Ioasys] Recuperação de senha',
+      to: { name: `${user.name}`, email: user.email },
+      subject: '[x-friends] Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {

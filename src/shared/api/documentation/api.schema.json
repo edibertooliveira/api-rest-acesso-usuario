@@ -1,22 +1,27 @@
 {
   "openapi": "3.0.6",
   "info": {
-    "version": "1.3.0",
-    "title": "Locadora Ioasys",
-    "description": ""
+    "title": "api-rest-acesso-usuario",
+    "description": "Essa API tem como objetivo testar meus conhecimentos, em Back-End. Desenvolvido usando: NodeJS com TypeScript, ExpressJS, banco de dados PostgreSQL, TypeORM. Diferencial: Recuperação de senha via email",
+    "contact": {
+      "email": "edibertooliveira@gmail.com"
+    },
+    "version": "1.0.0"
   },
   "servers": [
     {
       "url": "http://127.0.0.1:3334",
-      "description": "Prototipo locadora ioasys Server"
+      "description": "API base"
     }
   ],
   "paths": {
     "/register": {
       "post": {
-        "description": "Create a new user",
-        "operationId": "register",
+        "summary": "Responsável pela criação dos usuários",
+        "description": "Essa rota será responsável pela criação dos usúarios no banco de dados ",
+        "operationId": "userController_create",
         "parameters": [],
+        "security": [{"bearer": []}],
         "requestBody": {
           "content": {
             "application/json": {
@@ -29,7 +34,7 @@
         },
         "responses": {
           "201": {
-            "description": "The user has been created",
+            "description": "Criado usuários",
             "content": {
               "application/json": {
                 "schema": {
@@ -48,31 +53,33 @@
             }
           },
           "400": {
-            "description": "Invalid parameters",
+            "description": "Parâmetro inválido",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error_validate"
                 },
-                "example": {
-                  "statusCode": 400,
-                  "error": "Bad Request",
-                  "message": "celebrate request validation failed",
-                  "validation": {
-                    "body": {
-                      "source": "body",
-                      "keys": [
-                        "email"
-                      ],
-                      "message": "\"email\" must be a valid email"
+                "example": [
+                  {
+                    "statusCode": 400,
+                    "error": "Bad Request",
+                    "message": "celebrate request validation failed",
+                    "validation": {
+                      "body": {
+                        "source": "body",
+                        "keys": [
+                          "email"
+                        ],
+                        "message": "\"email\" must be a valid email"
+                      }
                     }
                   }
-                }
+                ]
               }
             }
           },
           "409": {
-            "description": "There is already one user with this email",
+            "description": "Já existe um usuário com este e-mail",
             "content": {
               "application/json": {
                 "schema": {
@@ -301,9 +308,6 @@
             "description": "Movies list",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/movies_response"
-                }
               }
             }
           },
@@ -348,9 +352,6 @@
             "description": "Movies list",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/movies_response"
-                }
               }
             }
           },
@@ -465,371 +466,6 @@
           }
         }
       }
-    },
-    "/movies": {
-      "get": {
-        "description": "Get full movie list",
-        "operationId": "allMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Add a new movie to the list",
-        "operationId": "addMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movies/:id": {
-      "get": {
-        "description": "Get a single movie",
-        "operationId": "oneMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/movies_response"
-                }
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "Updates information for a specific movie",
-        "operationId": "updateMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete movie from the list",
-        "operationId": "delMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movies/search": {
-      "get": {
-        "description": "Keyword Search",
-        "operationId": "searchMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Movies list",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movies/voto": {
-      "post": {
-        "description": "Add vote for movie",
-        "operationId": "voteMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "vote well succeed",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movies/image/:id": {
-      "patch": {
-        "description": "Add image single movie",
-        "operationId": "voteMovies",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "vote well succeed",
-            "content": {
-              "application/json": {
-              }
-            }
-          },
-
-          "401": {
-            "description": "JWT Token is missing.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error_api"
-                },
-                "example": [
-                  {
-                    "status": "error",
-                    "message": "JWT Token is missing."
-                  },
-                  {
-                    "status": "error",
-                    "message": "Token expired."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -872,34 +508,6 @@
       "role": {
         "type": "string",
         "example": "customer"
-      },
-      "title": {
-        "type": "string",
-        "example": "titanic"
-      },
-      "gender": {
-        "type": "string",
-        "example": "épico, drama, romance"
-      },
-      "image": {
-        "type": "string",
-        "example": "2740dfb75b87e672212c-IMG_20201208_162412556_MP~4.jpg"
-      },
-      "image_url": {
-        "type": "string",
-        "example": null
-      },
-      "year": {
-        "type": "string",
-        "example": "1997"
-      },
-      "directors": {
-        "type": "string",
-        "example": "James Cameron, Russell Carpenter, Peter Lamont"
-      },
-      "authors": {
-        "type": "string",
-        "example": "Leonardo DiCaprio, Kate Winslet, Kathy Bates"
       },
       "register": {
         "type": "object",
@@ -947,91 +555,6 @@
           "password_confirmation": {
             "$ref": "#/components/schemas/password"
           }
-        }
-      },
-      "movies_response": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/id"
-          },
-          "title": {
-            "$ref": "#/components/schemas/title"
-          },
-          "gender": {
-            "$ref": "#/components/schemas/gender"
-          },
-          "image": {
-            "$ref": "#/components/schemas/image"
-          },
-          "directors": {
-            "$ref": "#/components/schemas/directors"
-          },
-          "authors": {
-            "$ref": "#/components/schemas/authors"
-          },
-          "year": {
-            "$ref": "#/components/schemas/year"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/created_at"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/updated_at"
-          }
-        }
-      },
-      "movie_register": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "$ref": "#/components/schemas/title"
-          },
-          "gender": {
-            "$ref": "#/components/schemas/gender"
-          },
-          "directors": {
-            "$ref": "#/components/schemas/directors"
-          },
-          "authors": {
-            "$ref": "#/components/schemas/authors"
-          },
-          "year": {
-            "$ref": "#/components/schemas/year"
-          }
-        }
-      },
-      "movie_register_response": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/id"
-          },
-          "title": {
-            "$ref": "#/components/schemas/title"
-          },
-          "gender": {
-            "$ref": "#/components/schemas/gender"
-          },
-          "directors": {
-            "$ref": "#/components/schemas/directors"
-          },
-          "authors": {
-            "$ref": "#/components/schemas/authors"
-          },
-          "year": {
-            "$ref": "#/components/schemas/year"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/created_at"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/updated_at"
-          },
-          "image_url": {
-            "$ref": "#/components/schemas/image_url"
-          }
-
         }
       },
       "register_response": {
@@ -1098,6 +621,13 @@
             "type": "string"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

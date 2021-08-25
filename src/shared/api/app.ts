@@ -1,3 +1,5 @@
+import '@shared/container';
+import createConnection from '@shared/typeorm';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import { pagination } from 'typeorm-pagination';
@@ -6,16 +8,14 @@ import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 import * as OpenApiValidator from 'express-openapi-validator/';
-import createConnection from '@shared/typeorm';
 
 import doc from './documentation/api.schema.json';
 import uploadConfig from '@config/upload';
-import AppError from '@shared/errors/ApiError';
+import HandleError from '@shared/errors/handleError';
 import routes from './routers';
 import rateLimiter from './middlewares/rateLimiter';
 
 createConnection();
-
 const app = express();
 
 app.use(cors());
@@ -38,7 +38,7 @@ app.use(
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  if (err instanceof AppError) {
+  if (err instanceof HandleError) {
     return res.status(err.statusCode).json({
       status: 'error',
       message: err.message,

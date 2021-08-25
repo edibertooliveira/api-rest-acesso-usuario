@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-import 'reflect-metadata';
 import 'dotenv/config';
+import 'reflect-metadata';
 import server from './app';
 
 server.listen(process.env.APP_PORT, () => {

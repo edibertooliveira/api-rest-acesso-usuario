@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import AppError from '@shared/errors/ApiError';
+import HandleError from '@shared/errors/handleError';
 import { verify } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 
@@ -22,7 +22,7 @@ export const restrictionLevel =
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   (role: string) => {
     if (key && !role.includes(<string>restrictionConfig.get(key))) {
-      throw new AppError('Run access prohibited.', 403);
+      throw new HandleError('Run access prohibited.', 403);
     }
   };
 
@@ -30,7 +30,7 @@ export default function isAuthenticated(restrictionLevel: IRestrictionLevel) {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return (req: Request, _res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
-    if (!authHeader) throw new AppError('JWT Token is missing.', 401);
+    if (!authHeader) throw new HandleError('JWT Token is missing.', 401);
     const [, token] = authHeader.split(' ');
     try {
       const { sub, role } = verify(
@@ -42,7 +42,7 @@ export default function isAuthenticated(restrictionLevel: IRestrictionLevel) {
 
       next();
     } catch (error) {
-      throw new AppError('Invalid JWT Token', 401);
+      throw new HandleError('Invalid JWT Token', 401);
     }
   };
 }

@@ -1,22 +1,22 @@
+import { inject, injectable } from 'tsyringe';
 import path from 'path';
 import fs from 'fs';
-import { getCustomRepository } from 'typeorm';
-import AppError from '../../../shared/errors/ApiError';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
-import User from '../typeorm/entities/User';
-import uploadConfig from '../../../config/upload';
+import uploadConfig from '@config/upload';
+import { IUpdateUserAvatar } from '@modules/users/domain/models/IUpdateUserAvatar';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUser } from '@modules/users/domain/models/IUser';
+import HandleError from '@shared/errors/handleError';
 
-interface IRequest {
-  user_Id: string;
-  avatarFilename?: string;
-}
-
+@injectable()
 export default class UpdateUserAvatarService {
-  public async execute({ user_Id, avatarFilename }: IRequest): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const user = await usersRepository.findById(user_Id);
+  constructor(@inject('user') private usersRepository: IUsersRepository) {}
+  public async execute({
+    user_Id,
+    avatarFilename,
+  }: IUpdateUserAvatar): Promise<IUser> {
+    const user = await this.usersRepository.findById(user_Id);
     if (!user) {
-      throw new AppError('user not found', 404);
+      throw new HandleError('user not found', 404);
     }
     if (user.avatar) {
       const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
@@ -27,7 +27,7 @@ export default class UpdateUserAvatarService {
     }
 
     user.avatar = avatarFilename || '';
-    await usersRepository.update(user_Id, user);
+    await this.usersRepository.save(user);
     return user;
   }
 }
