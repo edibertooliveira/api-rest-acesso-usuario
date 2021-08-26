@@ -24,10 +24,16 @@ export default class CreateSessionService {
       throw new HandleError('Incorrect email/password combination', 401);
     }
 
-    const token = jwt.sign({}, authConfig.jwt.secret, {
-      subject: user.id,
-      expiresIn: authConfig.jwt.expiresIn,
-    });
+    const token = jwt.sign(
+      {
+        role: user.role,
+      },
+      authConfig.jwt.secret,
+      {
+        subject: user.id,
+        expiresIn: authConfig.jwt.expiresIn,
+      },
+    );
 
     return { user, token };
   }

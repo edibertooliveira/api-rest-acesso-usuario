@@ -4,7 +4,7 @@ import ApiError from '@shared/errors/handleError';
 
 const limiter = new RateLimiterMemory({
   keyPrefix: 'ratelimit',
-  points: 6,
+  points: 20,
   duration: 1,
 });
 

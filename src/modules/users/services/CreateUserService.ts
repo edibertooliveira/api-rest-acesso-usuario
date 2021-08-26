@@ -12,7 +12,7 @@ export default class CreateUserService {
     const userExists = await this.usersRepository.findByEmail(email);
     const hashedPassword = await hash(password, 8);
     if (userExists) {
-      throw new HandleError('There is already one user with this email', 400);
+      throw new HandleError('There is already one user with this email', 409);
     }
 
     const user = this.usersRepository.create({
