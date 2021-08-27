@@ -13,5 +13,5 @@ _link das rotas existentes_
 > http://localhost:3334/docs
 
 Usuarios para testes:
- - **admin:** admin@admin.com **senha:** user1123
- - **customer:** user1@user.com **senha:** user1123
+ - **admin:** admin@email.com **senha:** user1123
+ - **customer:** user@email.com **senha:** user1123
