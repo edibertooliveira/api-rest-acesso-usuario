@@ -3,7 +3,7 @@ import { UsersRepositoryMake } from '../mocks/UsersRepositoryMake';
 import { ListUsersService } from '@modules/users/services';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 
-describe('CreateUserService', () => {
+describe('ListUsersService', () => {
   let usersRepositoryMake: IUsersRepository;
   let listUserService: ListUsersService;
 
