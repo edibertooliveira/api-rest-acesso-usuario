@@ -17,17 +17,13 @@ const restrictionConfig = new Map([
   [2, 'admin'],
 ]);
 
-export const restrictionLevel =
-  (key: number) =>
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  (role: string) => {
-    if (key && !role.includes(<string>restrictionConfig.get(key))) {
-      throw new HandleError('Run access prohibited.', 403);
-    }
-  };
+export const restrictionLevel = (key: number) => (role: string) => {
+  if (key && !role.includes(<string>restrictionConfig.get(key))) {
+    throw new HandleError('Run access prohibited.', 403);
+  }
+};
 
 export default function isAuthenticated(restrictionLevel: IRestrictionLevel) {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return (req: Request, _res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) throw new HandleError('JWT Token is missing.', 401);
