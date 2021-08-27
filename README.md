@@ -6,13 +6,12 @@ Estes documento README tem como objetivo fornecer as informações necessárias 
 
 ````bash
 > npm install
-> npm run typeorm migration:run
-> npm run seed:run
+> npm run prestart
 > npm run dev
 ````
 _link das rotas existentes_
 > http://localhost:3334/docs
 
 Usuarios para testes:
- * **admin:** admin@admin.com **senha:** user1123
- * **customer:** user1@user.com **senha:** user1123
+ - **admin:** admin@admin.com **senha:** user1123
+ - **customer:** user1@user.com **senha:** user1123

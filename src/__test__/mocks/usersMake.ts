@@ -1,5 +1,5 @@
 export const password =
-  '$2a$08$JST6i/.s2uKZbgefdgz.U.fqneH6DFZZqjGrC3Gm03a7lcoJ.kamK';
+  '$2a$08$JST6i/.s2uKZbgefdgz.U.fqneH6DFZZqjGrC3Gm03a7lcoJ.kamK'; // senha: user1123
 
 export const users = [
   {

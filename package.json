@@ -5,14 +5,19 @@
   "license": "MIT",
   "author": "Ediberto BO",
   "scripts": {
-    "start": "node dist/shared/infra/http/server.js",
+    "prestart": "./script/prestart.sh",
+    "reset:db": "./script/dbrest.sh",
+    "start": "node dist/shared/app/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/api/server.ts",
+    "test": "cross-env NODE_ENV=test jest",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "seed:run": "ts-node ./src/shared/typeorm/seeds/seed.ts",
-    "test": "cross-env NODE_ENV=test jest"
+    "migrate:up": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run",
+    "migrate:down": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert",
+    "seed:up": "ts-node ./script/seedUp.ts",
+    "seed:down": "ts-node ./script/seedDown.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

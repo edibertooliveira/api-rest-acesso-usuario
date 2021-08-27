@@ -1,6 +1,6 @@
 #!/bin/bash
 
 npm install
-npm run typeorm migration:run
-npm run seed:run
+npm run migration:up
+npm run seed:up
 npm run dev
