@@ -5,7 +5,7 @@ import uploadConfig from '@config/upload';
 import { IUpdateUserAvatar } from '@modules/users/domain/models/IUpdateUserAvatar';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { IUser } from '@modules/users/domain/models/IUser';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 
 @injectable()
 export default class UpdateUserAvatarService {

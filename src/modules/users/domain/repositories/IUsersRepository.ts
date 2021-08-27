@@ -8,5 +8,4 @@ export interface IUsersRepository {
   findAll(): Promise<IUser[]>;
   create(data: ICreateUser): IUser;
   save(user: IUser): Promise<IUser>;
-  saveAll(users: IUser[]): Promise<IUser[]>;
 }

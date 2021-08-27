@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
-import ApiError from '@shared/errors/handleError';
+import ApiError from '@shared/errors/HandleError';
 
 const limiter = new RateLimiterMemory({
   keyPrefix: 'ratelimit',
-  points: 20,
+  points: 120,
   duration: 1,
 });
 

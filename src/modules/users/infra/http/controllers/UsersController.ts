@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { CreateUserService, ListUsersService } from '../../../services';
 import { classToClass } from 'class-transformer';
 import { container } from 'tsyringe';
-import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 
 export default class UsersController {
   public async index(_req: Request, res: Response): Promise<Response> {
@@ -18,7 +17,8 @@ export default class UsersController {
       name,
       email,
       password,
-    } as ICreateUser);
+      role: 'customer',
+    });
     return res.status(201).json(classToClass(user));
   }
 }

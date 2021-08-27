@@ -4,7 +4,7 @@ import EtherealMail from '@config/mail/EtherealMail';
 import { ISendForgot } from '@modules/users/domain/models/ISendForgot';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { IUsersTokensRepository } from '@modules/users/domain/repositories/IUsersTokensRepository';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 
 @injectable()
 export default class SendForgotPasswordEmailService {

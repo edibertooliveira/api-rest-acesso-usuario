@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 import authConfig from '../../../config/auth';
 import { ICreateSession } from '@modules/users/domain/models/ICreateSession';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';

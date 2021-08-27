@@ -11,7 +11,7 @@ import * as OpenApiValidator from 'express-openapi-validator/';
 
 import doc from './documentation/api.schema.json';
 import uploadConfig from '@config/upload';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 import routes from './routers';
 import rateLimiter from './middlewares/rateLimiter';
 
@@ -45,7 +45,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     });
   }
   // eslint-disable-next-line no-console
-  console.error(err.message);
+  console.log('ERROR: ', err.message);
   return res.status(500).json({
     status: 'error',
     message: 'Internal server error',

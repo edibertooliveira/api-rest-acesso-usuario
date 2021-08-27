@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 import { verify } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 

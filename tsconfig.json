@@ -9,6 +9,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
+    "strictNullChecks": false,
     "baseUrl": "./",
     "paths": {
       "@config/*": [

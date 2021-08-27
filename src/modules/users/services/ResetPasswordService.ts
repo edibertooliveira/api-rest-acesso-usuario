@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 import { IResetPassword } from '@modules/users/domain/models/IResetPassword';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { IUsersTokensRepository } from '@modules/users/domain/repositories/IUsersTokensRepository';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 
 @injectable()
 export default class ResetPasswordService {

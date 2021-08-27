@@ -50,8 +50,4 @@ export class UsersRepository implements IUsersRepository {
   public async save(user: User): Promise<User> {
     return await this.ormRepository.save(user);
   }
-
-  public async saveAll(users: User[]): Promise<User[]> {
-    return await this.ormRepository.save(users);
-  }
 }

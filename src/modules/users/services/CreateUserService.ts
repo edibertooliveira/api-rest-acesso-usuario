@@ -3,12 +3,17 @@ import { hash } from 'bcryptjs';
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import HandleError from '@shared/errors/handleError';
+import HandleError from '@shared/errors/HandleError';
 
 @injectable()
 export default class CreateUserService {
   constructor(@inject('user') private usersRepository: IUsersRepository) {}
-  public async execute({ name, email, password }: ICreateUser): Promise<IUser> {
+  public async execute({
+    name,
+    email,
+    password,
+    role,
+  }: ICreateUser): Promise<IUser> {
     const userExists = await this.usersRepository.findByEmail(email);
     const hashedPassword = await hash(password, 8);
     if (userExists) {
@@ -19,7 +24,7 @@ export default class CreateUserService {
       name,
       email,
       password: hashedPassword,
-      role: 'customer',
+      role,
     });
 
     await this.usersRepository.save(user);
