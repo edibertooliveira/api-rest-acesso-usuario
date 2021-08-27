@@ -20,8 +20,9 @@
         "summary": "Responsável pela criação dos usuários",
         "description": "Essa rota será responsável pela criação dos usúarios no banco de dados ",
         "operationId": "userController_create",
-        "parameters": [],
-        "security": [{"bearer": []}],
+        "tags": [
+          "Acesso"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -34,7 +35,7 @@
         },
         "responses": {
           "201": {
-            "description": "Criado usuários",
+            "description": "Sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -97,8 +98,12 @@
     },
     "/login": {
       "post": {
-        "description": "Create access for a registered user",
-        "operationId": "access",
+        "summary": "Responsável pelo acesso dos usuários",
+        "description": "Cria acesso para um usuário registrado",
+        "operationId": "SessionsController_access",
+        "tags": [
+          "Acesso"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -112,7 +117,7 @@
         },
         "responses": {
           "200": {
-            "description": "User has access",
+            "description": "Sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -120,8 +125,7 @@
                 },
                 "example": {
                   "id": "889ae8c3-8b31-44dd-a571-be96a15b283c",
-                  "firstName": "user",
-                  "lestName": "test",
+                  "name": "user",
                   "email": "user@gmail.com",
                   "created_at": "2021-08-13T02:21:57.097Z",
                   "updated_at": "2021-08-13T02:21:57.097Z",
@@ -131,7 +135,7 @@
             }
           },
           "400": {
-            "description": "Invalid parameters",
+            "description": "Parâmetro inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -153,14 +157,31 @@
                 }
               }
             }
+          },"401": {
+            "description": "Combinação incorreta de e-mail / senha",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error_api"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Incorrect email/password combination"
+                }
+              }
+            }
           }
         }
       }
     },
     "/password/forgot": {
       "post": {
-        "description": "Request user password change",
-        "operationId": "forgot",
+        "summary": "Responsável solicitar a mudança de senha do usuários registrado",
+        "description": "Solicita uma nova senha para o serviço de acesso da API",
+        "operationId": "ForgotPasswordController_forgot",
+        "tags": [
+          "Acesso"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -174,7 +195,7 @@
         },
         "responses": {
           "204": {
-            "description": "Sent an email to the requested user",
+            "description": "Sucesso",
             "content": {
               "application/json": {
                 "schema": {},
@@ -183,7 +204,7 @@
             }
           },
           "400": {
-            "description": "Invalid parameters",
+            "description": "Parâmetro inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -207,7 +228,7 @@
             }
           },
           "404": {
-            "description": "User does not exists.",
+            "description": "O usuário não existe",
             "content": {
               "application/json": {
                 "schema": {
@@ -225,8 +246,12 @@
     },
     "/password/reset": {
       "post": {
-        "description": "change Password with hash",
-        "operationId": "forgot",
+        "summary": "Responsável pela troca de senha do usuários registrado",
+        "description": "Necessario hash da solicitação de troca de senha, o usuário executa a trocar de senha",
+        "operationId": "ResetPasswordController_reset",
+        "tags": [
+          "Acesso"
+        ],
         "parameters": [],
         "requestBody": {
           "content": {
@@ -240,7 +265,7 @@
         },
         "responses": {
           "204": {
-            "description": "User has been switched",
+            "description": "Sucesso",
             "content": {
               "application/json": {
                 "schema": {},
@@ -249,7 +274,7 @@
             }
           },
           "400": {
-            "description": "Invalid parameters",
+            "description": "Parâmetro inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -272,17 +297,23 @@
               }
             }
           },
-          "404": {
-            "description": "User does not exists.",
+          "401": {
+            "description": "Erro envio do token",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error_api"
                 },
-                "example": {
-                  "status": "error",
-                  "message": "User does not exists."
-                }
+                "example": [
+                  {
+                    "status": "error",
+                    "message": "JWT Token is missing."
+                  },
+                  {
+                    "status": "error",
+                    "message": "Token expired."
+                  }
+                ]
               }
             }
           }
@@ -291,21 +322,20 @@
     },
     "/profile": {
       "get": {
-        "description": "Token owner user information",
-        "operationId": "UserProfile",
-        "parameters": [
+        "summary": "Responsável por obter  o registro do usuário dono do token",
+        "description": "Busca as informações do banco de dados do usuário dono do token de acesso",
+        "operationId": "ProfileController_find",
+        "tags": [
+          "Perfil"
+        ],
+        "security": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
+            "bearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Movies list",
+            "description": "Sucesso",
             "content": {
               "application/json": {
               }
@@ -313,7 +343,7 @@
           },
 
           "401": {
-            "description": "JWT Token is missing.",
+            "description": "Erro envio do token",
             "content": {
               "application/json": {
                 "schema": {
@@ -335,16 +365,15 @@
         }
       },
       "put": {
-        "description": "Changes to the information of the user who owns the token",
-        "operationId": "updateMovies",
-        "parameters": [
+        "summary": "Responsável por alterar o registro do usuário dono do token",
+        "description": "Modifica as informações do banco de dados do usuário dono do token de acesso",
+        "operationId": "ProfileController_update",
+        "tags": [
+          "Perfil"
+        ],
+        "security": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -357,7 +386,7 @@
           },
 
           "401": {
-            "description": "JWT Token is missing.",
+            "description": "Erro envio do token",
             "content": {
               "application/json": {
                 "schema": {
@@ -379,21 +408,20 @@
         }
       },
       "delete": {
-        "description": "Delete the user who has the token",
-        "operationId": "allMovies",
-        "parameters": [
+        "summary": "Responsável por deletar o registro do usuário dono do token",
+        "description": "Exclui/Bloqueia as informações do banco de dados do usuário dono do token de acesso",
+        "operationId": "ProfileController_delete",
+        "tags": [
+          "Perfil"
+        ],
+        "security": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
+            "bearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Movies list",
+            "description": "Sucesso",
             "content": {
               "application/json": {
               }
@@ -401,7 +429,7 @@
           },
 
           "401": {
-            "description": "JWT Token is missing.",
+            "description": "Erro envio do token",
             "content": {
               "application/json": {
                 "schema": {
@@ -423,29 +451,27 @@
         }
       },
       "patch": {
-        "description": "Add image to profile of token owner user",
-        "operationId": "addImageUser",
-        "parameters": [
+        "summary": "Responsável por modificar a imagem de perfil do usuário dono do token",
+        "description": "Adiciona/Troca a imagem salva no servidor do usuário dono do token de acesso",
+        "operationId": "UsersAvatarController",
+        "tags": [
+          "Perfil"
+        ],
+        "security": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "$ref": "#/components/schemas/token"
-            },
-            "required": true
+            "bearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "Movies list",
+            "description": "Sucesso",
             "content": {
               "application/json": {
               }
             }
           },
-
           "401": {
-            "description": "JWT Token is missing.",
+            "description": "Erro envio do token",
             "content": {
               "application/json": {
                 "schema": {
