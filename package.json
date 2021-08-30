@@ -9,7 +9,7 @@
     "reset:db": "./script/dbrest.sh",
     "start": "node dist/shared/app/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/api/server.ts",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --runInBand --coverage --detectOpenHandles --forceExit",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",

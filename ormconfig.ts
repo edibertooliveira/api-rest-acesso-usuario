@@ -10,7 +10,6 @@ export default {
   database: process.env.DB_DEV_DATABASE,
   entities: ['./src/modules/**/typeorm/entities/*.ts'],
   migrations: ['./src/shared/typeorm/migrations/*.ts'],
-  synchronize: false,
   cli: {
     migrationsDir: './src/shared/typeorm/migrations',
   },

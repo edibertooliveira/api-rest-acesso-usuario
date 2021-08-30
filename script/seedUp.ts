@@ -1,7 +1,7 @@
 import { Connection } from 'typeorm';
 
 import createConnections from '../src/shared/typeorm';
-import { password } from '../src/__test__/mocks/usersMake';
+import { password } from '../src/__test__/mocks/users/usersMake';
 
 (async () => {
   console.log('Beginning dbseed task.');
