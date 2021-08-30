@@ -11,10 +11,10 @@ import HandleError from '@shared/errors/HandleError';
 export default class UpdateUserAvatarService {
   constructor(@inject('user') private usersRepository: IUsersRepository) {}
   public async execute({
-    user_Id,
+    user_id,
     avatarFilename,
   }: IUpdateUserAvatar): Promise<IUser> {
-    const user = await this.usersRepository.findById(user_Id);
+    const user = await this.usersRepository.findById(user_id);
     if (!user) {
       throw new HandleError('user not found', 404);
     }

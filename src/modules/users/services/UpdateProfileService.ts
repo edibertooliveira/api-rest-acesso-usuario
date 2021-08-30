@@ -17,7 +17,7 @@ export default class UpdateProfileService {
   }: IUpdateUser): Promise<IUser> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new HandleError('User not found');
+    if (user_id !== user.id) throw new HandleError('User not authorized', 403);
 
     const userUpdateEmail = await this.usersRepository.findByEmail(email);
 

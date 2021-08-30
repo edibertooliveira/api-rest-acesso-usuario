@@ -5,6 +5,8 @@ import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepos
 import { IUsersTokensRepository } from '@modules/users/domain/repositories/IUsersTokensRepository';
 import { UsersTokensRepository } from '@modules/users/infra/typeorm/repositories/UsersTokensRepository';
 
+import '@modules/users/providers/HashProvider';
+
 container.registerSingleton<IUsersRepository>('user', UsersRepository);
 container.registerSingleton<IUsersTokensRepository>(
   'user_token',
