@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { UsersRepositoryMake } from '../mocks/UsersRepositoryMake';
+import { UsersRepositoryMake } from '../../../mocks/users/UsersRepositoryMake';
 import { ListUsersService } from '@modules/users/services';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 

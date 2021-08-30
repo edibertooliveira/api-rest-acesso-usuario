@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { UsersRepositoryMake } from '../mocks/UsersRepositoryMake';
+import { UsersRepositoryMake } from '../../../mocks/users/UsersRepositoryMake';
 import { CreateUserService } from '@modules/users/services';
 import HandleError from '@shared/errors/HandleError';
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';

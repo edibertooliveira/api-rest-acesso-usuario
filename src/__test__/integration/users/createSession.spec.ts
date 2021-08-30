@@ -2,7 +2,7 @@ import request from 'supertest';
 import { Connection, getConnection } from 'typeorm';
 import createConnection from '@shared/typeorm';
 import app from '@shared/api/app';
-import { password } from '../mocks/usersMake';
+import { password } from '../../mocks/users/usersMake';
 
 describe('endpoint para acesso de usuários a API "/login"', () => {
   let connection: Connection;

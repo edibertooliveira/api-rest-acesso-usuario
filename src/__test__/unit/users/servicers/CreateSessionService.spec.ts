@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { HashProviderMake } from '../mocks/HashProviderMake';
-import { UsersRepositoryMake } from '../mocks/UsersRepositoryMake';
+import { HashProviderMake } from '../../../mocks/users/HashProviderMake';
+import { UsersRepositoryMake } from '../../../mocks/users/UsersRepositoryMake';
 import { CreateSessionService } from '@modules/users/services';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { ICreateSession } from '@modules/users/domain/models/ICreateSession';

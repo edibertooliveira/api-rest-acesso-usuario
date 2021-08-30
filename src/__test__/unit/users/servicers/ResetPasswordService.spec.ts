@@ -2,10 +2,10 @@ import 'reflect-metadata';
 import { ResetPasswordService } from '@modules/users/services';
 import HandleError from '@shared/errors/HandleError';
 import { IUsersTokensRepository } from '@modules/users/domain/repositories/IUsersTokensRepository';
-import { UsersTokensRepositoryMake } from '../mocks/UsersTokensRepositoryMake';
+import { UsersTokensRepositoryMake } from '../../../mocks/users/UsersTokensRepositoryMake';
 // import { IUserTokens } from '@modules/users/domain/models/IUserTokens';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import { UsersRepositoryMake } from '../mocks/UsersRepositoryMake';
+import { UsersRepositoryMake } from '../../../mocks/users/UsersRepositoryMake';
 import { IUser } from '@modules/users/domain/models/IUser';
 
 describe('ResetPasswordService', () => {
