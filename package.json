@@ -15,7 +15,7 @@
     "lint-fix": "eslint . --ext .ts --fix",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migrate:up": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run",
-    "migrate:down": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert",
+    "migrate:drop": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js schema:drop",
     "seed:up": "ts-node ./script/seedUp.ts",
     "seed:down": "ts-node ./script/seedDown.ts"
   },
